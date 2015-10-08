@@ -47,7 +47,12 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         }else{
             v = (ViewHolder) convertView.getTag();
         }
-
+        v.tvNombre.setText(contactos.get(position).getNombre());
+        if((Integer) contactos.get(position).getTelefono().size()>0){
+            v.tvTelefono.setText(contactos.get(position).getTelefono().get(0));
+            String t = (Integer) contactos.get(position).getTelefono().size() > 1 ? "+" : "-";
+            v.btAccion.setText(t);
+        }
 
 
         return convertView;

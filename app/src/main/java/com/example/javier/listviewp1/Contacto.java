@@ -48,6 +48,16 @@ public class Contacto {
         this.telefono = telefono;
     }
 
+    public static List<Contacto> getLista(Context contexto){
+        ArrayList<Contacto> contactos = (ArrayList<Contacto>) Contacto.getListaContactos(contexto);
+
+        for(Contacto c : contactos){
+            c.setTelefono((ArrayList<String>) Contacto.getListaTelefonos(contexto, c.getId()));
+        }
+
+        return contactos;
+    }
+
     public static List<Contacto> getListaContactos(Context contexto){
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         String proyeccion[] = null;
