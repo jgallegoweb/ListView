@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
@@ -23,7 +23,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
     static class ViewHolder{
         public TextView tvNombre, tvTelefono;
         public ImageView ivPerfil;
-        public Button btAccion;
+        public ImageButton ibAccion;
     }
 
     public Adaptador(Context context, int resource, List<Contacto> objects) {
@@ -42,7 +42,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
             v.tvNombre = (TextView) convertView.findViewById(R.id.tvNombre);
             v.tvTelefono = (TextView) convertView.findViewById(R.id.tvTelefono);
             v.ivPerfil = (ImageView) convertView.findViewById(R.id.ivPerfil);
-            v.btAccion = (Button) convertView.findViewById(R.id.btAccion);
+            v.ibAccion = (ImageButton) convertView.findViewById(R.id.ibAccion);
             convertView.setTag(v);
         }else{
             v = (ViewHolder) convertView.getTag();
@@ -50,8 +50,8 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         v.tvNombre.setText(contactos.get(position).getNombre());
         if((Integer) contactos.get(position).getTelefono().size()>0){
             v.tvTelefono.setText(contactos.get(position).getTelefono().get(0));
-            String t = (Integer) contactos.get(position).getTelefono().size() > 1 ? "+" : "-";
-            v.btAccion.setText(t);
+            int t = (Integer) contactos.get(position).getTelefono().size() > 1 ? R.mipmap.ic_anadir : R.mipmap.ic_listar;
+            v.ibAccion.setImageResource(t);
         }
 
 

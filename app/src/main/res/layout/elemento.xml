@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:padding="10dp">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivPerfil"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/ic_account_circle_black_24dp"
+        android:scaleType="fitCenter"
+        android:minWidth="50dp"
+        android:minHeight="50dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/inicial"
         android:layout_toRightOf="@id/ivPerfil"
-        android:id="@+id/tvNombre" />
+        android:id="@+id/tvNombre"
+        android:layout_marginLeft="10dp"
+        android:textSize="24dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,15 +27,16 @@
         android:layout_toRightOf="@id/ivPerfil"
         android:layout_below="@id/tvNombre"
         android:text="@string/inicial"
-        android:id="@+id/tvTelefono" />
+        android:id="@+id/tvTelefono"
+        android:layout_marginLeft="10dp"
+        android:textSize="18dp" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/inicial"
-        android:layout_toRightOf="@id/tvTelefono"
-        android:id="@+id/btAccion"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignWithParentIfMissing="false" />
+        android:id="@+id/ibAccion"
+        android:background="@drawable/boton_redondo"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true" />
+
 </RelativeLayout>
