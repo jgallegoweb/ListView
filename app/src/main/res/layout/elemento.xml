@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:elevation="2dp"
+    android:background="#f6f6f6"
+    >
 
     <ImageView
         android:layout_width="wrap_content"
@@ -19,7 +22,8 @@
         android:layout_toRightOf="@id/ivPerfil"
         android:id="@+id/tvNombre"
         android:layout_marginLeft="10dp"
-        android:textSize="24dp" />
+        android:textSize="24dp"
+        android:textColor="#011826" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +33,8 @@
         android:text="@string/inicial"
         android:id="@+id/tvTelefono"
         android:layout_marginLeft="10dp"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:textColor="#011826" />
 
     <ImageButton
         android:layout_width="wrap_content"

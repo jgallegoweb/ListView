@@ -6,4 +6,16 @@
     <string name="inicial">default</string>
     <string name="tlf_multiple">+</string>
     <string name="tlf_unico">-</string>
+    <string name="insertar">Añadir</string>
+    <string name="insertar_numero">Añadir número</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="titulo_insertar">Añadir número</string>
+    <string name="titulo_ver">Ver números</string>
+    <string name="title_activity_creador">Creador</string>
+    <string name="hint_nombre">Nombre...</string>
+    <string name="nombre">Nombre</string>
+    <string name="hint_telefono">Teléfono...</string>
+    <string name="telefono">Teléfono</string>
+    <string name="guardar">Guardar</string>
 </resources>

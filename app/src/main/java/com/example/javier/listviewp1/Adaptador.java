@@ -1,13 +1,18 @@
 package com.example.javier.listviewp1;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.List;
 
 /**
@@ -37,6 +42,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder v = new ViewHolder();
+        Contacto contacto = contactos.get(position);
         if(convertView==null){
             convertView = infladorLayout.inflate(recurso, null);
             v.tvNombre = (TextView) convertView.findViewById(R.id.tvNombre);
@@ -47,14 +53,80 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         }else{
             v = (ViewHolder) convertView.getTag();
         }
-        v.tvNombre.setText(contactos.get(position).getNombre());
-        if((Integer) contactos.get(position).getTelefono().size()>0){
-            v.tvTelefono.setText(contactos.get(position).getTelefono().get(0));
-            int t = (Integer) contactos.get(position).getTelefono().size() > 1 ? R.mipmap.ic_anadir : R.mipmap.ic_listar;
+        v.tvNombre.setText(contacto.getNombre());
+        int contadorNumeros = (Integer) contacto.getTelefono().size();
+        if(contadorNumeros>0){
+            v.tvTelefono.setText(contacto.getTelefono().get(0));
+            /*
+            int t = (Integer) contadorNumeros > 1 ? R.drawable.ic_add_black_18dp : R.drawable.ic_keyboard_arrow_right_black_18dp;
             v.ibAccion.setImageResource(t);
+            */
+            if(contadorNumeros==1){
+                v.ibAccion.setImageResource(R.drawable.ic_add_black_18dp);
+                addInsertarNumero(v.ibAccion, contacto);
+            }else{
+                v.ibAccion.setImageResource(R.drawable.ic_keyboard_arrow_right_black_18dp);
+                addVerNumeros(v.ibAccion, contacto);
+            }
+
         }
 
-
         return convertView;
+    }
+
+    public void addInsertarNumero(final ImageButton ib, final Contacto contacto){
+        ib.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                insertarNumero(contacto);
+            }
+        });
+    }
+    public void addVerNumeros(ImageButton ib, final Contacto contacto) {
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verNumeros(contacto);
+            }
+        });
+    }
+    public void insertarNumero(final Contacto contacto){
+        Toast.makeText(contexto, contacto.getNombre(), Toast.LENGTH_LONG).show();
+        AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
+        alert.setTitle(R.string.titulo_insertar);
+        LayoutInflater inflater = LayoutInflater.from(contexto);
+        int res = R.layout.dialogo_insertar;
+        final View vista = inflater.inflate(res, null);
+        TextView tvNombreDialogo = (TextView)vista.findViewById(R.id.tvNombreDialogo);
+        tvNombreDialogo.setText(contacto.getNombre());
+        alert.setView(vista);
+        alert.setPositiveButton(R.string.insertar,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        contacto.addTelefono(((EditText) vista.findViewById(R.id.etNuevoNumero)).getText().toString());
+                        notifyDataSetChanged();
+                    }
+                });
+        alert.setNegativeButton(R.string.cancelar, null);
+        alert.show();
+    }
+
+    public void verNumeros(final Contacto contacto){
+        AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
+        alert.setTitle(R.string.titulo_ver);
+        LayoutInflater inflater = LayoutInflater.from(contexto);
+        int res = R.layout.dialogo_ver;
+        final View vista = inflater.inflate(res, null);
+        TextView tvNumerosDialogo = (TextView) vista.findViewById(R.id.tvNumerosDialogo);
+        tvNumerosDialogo.setText(contacto.toString());
+        alert.setView(vista);
+        alert.setPositiveButton(R.string.insertar_numero,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        insertarNumero(contacto);
+                    }
+                });
+        alert.setNegativeButton(R.string.cerrar, null);
+        alert.show();
     }
 }
