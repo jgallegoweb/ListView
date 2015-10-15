@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ public class Principal extends AppCompatActivity {
         adaptador = new Adaptador(this, R.layout.elemento, contactos);
         lv.setAdapter(adaptador);
         lv.setTag(contactos);
+        registerForContextMenu(lv);
     }
 
     public void verInsertar(View v){
@@ -67,5 +71,31 @@ public class Principal extends AppCompatActivity {
             }
         }
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_contextual, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        long id = item.getItemId();
+        AdapterView.AdapterContextMenuInfo vistaInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int posicion = vistaInfo.position;
+
+        switch((int)id){
+            case R.id.menu_contextual_editar:
+
+                break;
+            case R.id.menu_contextual_eliminar:
+                contactos.remove(posicion);
+                adaptador.notifyDataSetChanged();
+                break;
+        }
+
+        return super.onContextItemSelected(item);
     }
 }

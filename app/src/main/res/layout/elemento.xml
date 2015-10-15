@@ -4,6 +4,7 @@
     android:padding="10dp"
     android:elevation="2dp"
     android:background="#f6f6f6"
+    android:descendantFocusability="blocksDescendants"
     >
 
     <ImageView
