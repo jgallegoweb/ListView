@@ -117,7 +117,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         LayoutInflater inflater = LayoutInflater.from(contexto);
         int res = R.layout.dialogo_ver;
         final View vista = inflater.inflate(res, null);
-        TextView tvNumerosDialogo = (TextView) vista.findViewById(R.id.tvNumerosDialogo);
+        TextView tvNumerosDialogo = (TextView) vista.findViewById(R.id.tvMensaje);
         tvNumerosDialogo.setText(contacto.toString());
         alert.setView(vista);
         alert.setPositiveButton(R.string.insertar_numero,

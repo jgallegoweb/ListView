@@ -20,4 +20,9 @@
     <string name="guardar">Guardar</string>
     <string name="editar">Editar</string>
     <string name="eliminar">Eliminar</string>
+    <string name="confirmar">Confirmar operación</string>
+    <string name="mensaje_borrar">Se procederá a borrar a</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="title_activity_vista_contacto">VistaContacto</string>
+    <string name="ver">Ver</string>
 </resources>

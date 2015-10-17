@@ -1,16 +1,20 @@
 package com.example.javier.listviewp1;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -52,6 +56,8 @@ public class Principal extends AppCompatActivity {
         registerForContextMenu(lv);
     }
 
+
+
     public void verInsertar(View v){
         Intent intent = new Intent(this, Creador.class);
         startActivityForResult(intent, 1);
@@ -82,20 +88,52 @@ public class Principal extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        long id = item.getItemId();
+        int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo vistaInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        int posicion = vistaInfo.position;
 
-        switch((int)id){
+        switch(id){
+            case R.id.menu_contextual_ver:
+                verContacto(vistaInfo.position);
+                break;
             case R.id.menu_contextual_editar:
 
                 break;
             case R.id.menu_contextual_eliminar:
-                contactos.remove(posicion);
-                adaptador.notifyDataSetChanged();
+                confirmarBorrar(vistaInfo.position);
                 break;
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void borrarContacto(int posicion){
+        contactos.remove(posicion);
+        adaptador.notifyDataSetChanged();
+    }
+
+    private void confirmarBorrar(final int posicion){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.confirmar);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final View vista = inflater.inflate(R.layout.dialogo_ver, null);
+        TextView tvMensaje = (TextView) vista.findViewById(R.id.tvMensaje);
+        tvMensaje.setText(getString(R.string.mensaje_borrar)+" "+contactos.get(posicion).getNombre());
+        alert.setView(vista);
+        alert.setPositiveButton(R.string.aceptar,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        borrarContacto(posicion);
+                    }
+                });
+        alert.setNegativeButton(R.string.cancelar, null);
+        alert.show();
+    }
+
+    public void verContacto(int posicion){
+        Intent intent = new Intent(this, VistaContacto.class);
+        Bundle p = new Bundle();
+        p.putSerializable("contacto", contactos.get(posicion));
+        intent.putExtras(p);
+        startActivity(intent);
     }
 }

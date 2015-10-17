@@ -22,6 +22,10 @@
             android:name=".Creador"
             android:label="@string/title_activity_creador" >
         </activity>
+        <activity
+            android:name=".VistaContacto"
+            android:label="@string/title_activity_vista_contacto" >
+        </activity>
     </application>
 
 </manifest>
