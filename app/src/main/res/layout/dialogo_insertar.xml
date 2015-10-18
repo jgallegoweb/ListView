@@ -19,5 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvNombreDialogo"
         android:id="@+id/etNuevoNumero"
+        android:inputType="phone"
         android:paddingBottom="10dp" />
 </RelativeLayout>

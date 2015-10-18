@@ -61,7 +61,7 @@ public class Contacto implements Serializable, Comparable<Contacto>{
 
     @Override
     public int compareTo(Contacto contacto) {
-        int c = this.nombre.compareTo(contacto.nombre);
+        int c = this.nombre.compareToIgnoreCase(contacto.nombre);
         return c!=0 ? c : (int)(this.id - contacto.id);
     }
 

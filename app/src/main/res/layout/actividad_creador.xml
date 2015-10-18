@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/lvTelefonosCreador"
             android:hint="@string/hint_telefono"
+            android:inputType="phone"
             android:id="@+id/etTelefono"
             android:layout_weight="1" />
 
