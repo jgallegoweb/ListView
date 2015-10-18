@@ -4,8 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="inicial">default</string>
-    <string name="tlf_multiple">+</string>
-    <string name="tlf_unico">-</string>
+    <string name="add">+</string>
+    <string name="remove">-</string>
     <string name="insertar">Añadir</string>
     <string name="insertar_numero">Añadir número</string>
     <string name="cancelar">Cancelar</string>
@@ -27,4 +27,8 @@
     <string name="ver">Ver</string>
     <string name="ordenar_ascedente">Ordenar A-Z</string>
     <string name="ordenar_descedente">Ordenar Z-A</string>
+    <string name="establecer_pricipal">Establecer como principal</string>
+    <string name="exito_borrar">Eliminado con éxito</string>
+    <string name="exito_guardar">Guardado con éxito</string>
+
 </resources>

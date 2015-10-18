@@ -51,7 +51,13 @@ public class Contacto implements Serializable, Comparable<Contacto>{
 
     public void addTelefono(String telefono){ this.telefono.add(telefono); }
 
-    public void removeTelefono(String telefono){ this.telefono.remove(telefono); }
+    public void removeTelefono(int pos){ this.telefono.remove(pos); }
+
+    public void setTelefonoPrincipal(int pos){
+        String aux = this.telefono.get(0);
+        this.telefono.set(0, this.telefono.get(pos));
+        this.telefono.set(pos, aux);
+    }
 
     @Override
     public int compareTo(Contacto contacto) {

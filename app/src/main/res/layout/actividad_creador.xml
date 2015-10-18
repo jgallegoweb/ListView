@@ -26,19 +26,48 @@
         android:text="@string/telefono"
         android:id="@+id/tvT" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvT"
-        android:hint="@string/hint_telefono"
-        android:id="@+id/etTelefono" />
-
-    <Button
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tvT"
+        android:id="@+id/lvTelefonosCreador"
+        tools:listitem="@layout/telefono" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_below="@id/lvTelefonosCreador"
+        android:layout_height="wrap_content"
+        android:id="@+id/lAddTelefono">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lvTelefonosCreador"
+            android:hint="@string/hint_telefono"
+            android:id="@+id/etTelefono"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:layout_toRightOf="@id/etTelefono"
+            android:layout_alignBaseline="@id/etTelefono"
+            android:onClick="addTelefono"
+            android:id="@+id/btAddTelefono" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/guardar"
-        android:layout_below="@id/etTelefono"
+        android:layout_below="@id/lAddTelefono"
         android:id="@+id/button"
-        android:layout_alignParentEnd="true"
-        android:onClick="guardar"/>
+        android:layout_alignParentEnd="false"
+        android:onClick="guardar"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:layout_alignWithParentIfMissing="false" />
+
 </RelativeLayout>

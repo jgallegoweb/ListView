@@ -1,9 +1,12 @@
 package com.example.javier.listviewp1;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,6 +17,8 @@ import java.util.ArrayList;
 public class VistaContacto extends AppCompatActivity {
     private TextView tvNombreVista;
     private AdaptadorVistaContacto aVista;
+    private Contacto contacto;
+    private ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +35,6 @@ public class VistaContacto extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -45,14 +47,40 @@ public class VistaContacto extends AppCompatActivity {
 
     private void init(){
         Bundle p = getIntent().getExtras();
-        Contacto contacto = (Contacto)p.getSerializable("contacto");
+        contacto = (Contacto)p.getSerializable("contacto");
+        lv = (ListView)findViewById(R.id.lvNumerosVista);
+        visualiza();
+    }
+
+    private void visualiza(){
         tvNombreVista = (TextView)findViewById(R.id.tvNombreVista);
         tvNombreVista.setText(contacto.getNombre());
-
-        final ListView lv = (ListView)findViewById(R.id.lvNumerosVista);
         aVista = new AdaptadorVistaContacto(this, R.layout.telefono, contacto.getTelefono());
         lv.setAdapter(aVista);
         lv.setTag(contacto.getTelefono());
-        //registerForContextMenu(lv);
+    }
+
+    public void editar(View v){
+        Intent intent = new Intent(this, Creador.class);
+        Bundle p = new Bundle();
+        p.putSerializable("contacto", contacto);
+        intent.putExtras(p);
+        startActivityForResult(intent, Principal.EDITOR);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Principal.EDITOR){
+            if(resultCode == Activity.RESULT_OK){
+                contacto = (Contacto)data.getExtras().getSerializable("contacto");
+                Intent intent = new Intent();
+                Bundle p = new Bundle();
+                p.putSerializable("contacto", contacto);
+                intent.putExtras(p);
+                setResult(RESULT_OK, intent);
+                visualiza();
+            }
+        }
     }
 }

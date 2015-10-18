@@ -3,16 +3,24 @@ package com.example.javier.listviewp1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class Creador extends AppCompatActivity {
     private ArrayList<Contacto> contactos;
     private EditText etNombre, etTelefono;
+    private ListView lvTelefonosCreador;
+    private AdaptadorVistaContacto aVista;
+    private Contacto contacto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +37,6 @@ public class Creador extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -42,20 +47,57 @@ public class Creador extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void init(){
+        contacto =(Contacto)getIntent().getExtras().getSerializable("contacto");
+
         etNombre = (EditText)findViewById(R.id.etNombre);
         etTelefono = (EditText)findViewById(R.id.etTelefono);
+        lvTelefonosCreador = (ListView)findViewById(R.id.lvTelefonosCreador);
+        etNombre.setText(contacto.getNombre());
+        aVista = new AdaptadorVistaContacto(this, R.layout.telefono, contacto.getTelefono());
+        lvTelefonosCreador.setAdapter(aVista);
+        lvTelefonosCreador.setTag(contacto.getTelefono());
+        registerForContextMenu(lvTelefonosCreador);
     }
 
     public void guardar(View v){
-        ArrayList<String> tel = new ArrayList<>();
-        tel.add(etTelefono.getText().toString());
-        Contacto nuevo = new Contacto(-1, etNombre.getText().toString(), tel);
+        contacto.setNombre(etNombre.getText().toString());
 
         Intent intent = new Intent();
         Bundle p = new Bundle();
-        p.putSerializable("nuevoContacto", nuevo);
+        p.putSerializable("contacto", contacto);
         intent.putExtras(p);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    public void addTelefono(View v){
+        contacto.getTelefono().add(etTelefono.getText().toString());
+        etTelefono.setText("");
+        aVista.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_contextual_creador, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        AdapterView.AdapterContextMenuInfo vistaInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        switch(id){
+            case R.id.menu_contextual_creador_eliminar:
+                contacto.removeTelefono(vistaInfo.position);
+                break;
+            case R.id.menu_contextual_creador_establecer:
+                contacto.setTelefonoPrincipal(vistaInfo.position);
+                break;
+        }
+
+        aVista.notifyDataSetChanged();
+        return super.onContextItemSelected(item);
     }
 }

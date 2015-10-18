@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +24,8 @@ import java.util.Collections;
 public class Principal extends AppCompatActivity {
     private Adaptador adaptador;
     private ArrayList<Contacto> contactos;
-    static final int CREADOR = 1;
+    private int posicion_editada;
+    static final int CREADOR = 1, EDITOR = 2, VISOR = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,6 @@ public class Principal extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_principal, menu);
         return true;
     }
@@ -71,7 +72,20 @@ public class Principal extends AppCompatActivity {
 
     public void verInsertar(View v){
         Intent intent = new Intent(this, Creador.class);
-        startActivityForResult(intent, 1);
+        Bundle p = new Bundle();
+        Contacto c = new Contacto(-1, "", new ArrayList<String>());
+        p.putSerializable("contacto", c);
+        intent.putExtras(p);
+        startActivityForResult(intent, CREADOR);
+    }
+
+    private void verEditar(int posicion){
+        Intent intent = new Intent(this, Creador.class);
+        Bundle p = new Bundle();
+        p.putSerializable("contacto", contactos.get(posicion));
+        posicion_editada = posicion;
+        intent.putExtras(p);
+        startActivityForResult(intent, EDITOR);
     }
 
     @Override
@@ -81,10 +95,20 @@ public class Principal extends AppCompatActivity {
         if(requestCode == CREADOR){
             if(resultCode == Activity.RESULT_OK){
                 Bundle p = data.getExtras();
-                Contacto nuevo = (Contacto)p.getSerializable("nuevoContacto");
+                Contacto nuevo = (Contacto)p.getSerializable("contacto");
                 contactos.add(nuevo);
                 ordenarAscendente();
                 adaptador.notifyDataSetChanged();
+                tostada(getString(R.string.exito_guardar));
+            }
+        }else if(requestCode == EDITOR || requestCode == VISOR){
+            if(resultCode == Activity.RESULT_OK){
+                Bundle p = data.getExtras();
+                Contacto editado = (Contacto)p.getSerializable("contacto");
+                contactos.set(posicion_editada, editado);
+                ordenarAscendente();
+                adaptador.notifyDataSetChanged();
+                tostada(getString(R.string.exito_guardar));
             }
         }
 
@@ -107,7 +131,7 @@ public class Principal extends AppCompatActivity {
                 verContacto(vistaInfo.position);
                 break;
             case R.id.menu_contextual_editar:
-
+                verEditar(vistaInfo.position);
                 break;
             case R.id.menu_contextual_eliminar:
                 confirmarBorrar(vistaInfo.position);
@@ -120,6 +144,7 @@ public class Principal extends AppCompatActivity {
     private void borrarContacto(int posicion){
         contactos.remove(posicion);
         adaptador.notifyDataSetChanged();
+        tostada(getString(R.string.exito_borrar));
     }
 
     private void confirmarBorrar(final int posicion){
@@ -145,7 +170,8 @@ public class Principal extends AppCompatActivity {
         Bundle p = new Bundle();
         p.putSerializable("contacto", contactos.get(posicion));
         intent.putExtras(p);
-        startActivity(intent);
+        posicion_editada = posicion;
+        startActivityForResult(intent, VISOR);
     }
 
     private void ordenarAscendente(){
@@ -157,4 +183,9 @@ public class Principal extends AppCompatActivity {
         Collections.sort(contactos, Collections.reverseOrder());
         adaptador.notifyDataSetChanged();
     }
+
+    private void tostada(String texto){
+        Toast.makeText(this, texto, Toast.LENGTH_LONG).show();
+    }
+
 }

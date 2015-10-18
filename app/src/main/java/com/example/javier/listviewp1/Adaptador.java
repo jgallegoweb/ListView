@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,7 +92,6 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         });
     }
     public void insertarNumero(final Contacto contacto){
-        Toast.makeText(contexto, contacto.getNombre(), Toast.LENGTH_LONG).show();
         AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
         alert.setTitle(R.string.titulo_insertar);
         LayoutInflater inflater = LayoutInflater.from(contexto);
@@ -115,10 +115,16 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
         alert.setTitle(R.string.titulo_ver);
         LayoutInflater inflater = LayoutInflater.from(contexto);
-        int res = R.layout.dialogo_ver;
-        final View vista = inflater.inflate(res, null);
-        TextView tvNumerosDialogo = (TextView) vista.findViewById(R.id.tvMensaje);
-        tvNumerosDialogo.setText(contacto.toString());
+        final View vista = inflater.inflate(R.layout.dialogo_ver, null);
+
+        TextView tvNombreDialogo = (TextView) vista.findViewById(R.id.tvMensaje);
+        tvNombreDialogo.setText(contacto.getNombre());
+
+        ListView lvTelefonosCreador = (ListView)vista.findViewById(R.id.lvTelefonosDialogo);
+        AdaptadorVistaContacto aVista = new AdaptadorVistaContacto(contexto, R.layout.telefono, contacto.getTelefono());
+        lvTelefonosCreador.setAdapter(aVista);
+        lvTelefonosCreador.setTag(contacto.getTelefono());
+
         alert.setView(vista);
         alert.setPositiveButton(R.string.insertar_numero,
                 new DialogInterface.OnClickListener() {
