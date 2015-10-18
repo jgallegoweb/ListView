@@ -25,4 +25,6 @@
     <string name="aceptar">Aceptar</string>
     <string name="title_activity_vista_contacto">VistaContacto</string>
     <string name="ver">Ver</string>
+    <string name="ordenar_ascedente">Ordenar A-Z</string>
+    <string name="ordenar_descedente">Ordenar Z-A</string>
 </resources>

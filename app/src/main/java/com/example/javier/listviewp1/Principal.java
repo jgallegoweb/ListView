@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Principal extends AppCompatActivity {
     private Adaptador adaptador;
@@ -39,6 +41,15 @@ public class Principal extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        switch (id){
+            case R.id.ordenar_asc:
+                ordenarAscendente();
+                break;
+            case R.id.ordenar_des:
+                ordenarDescendente();
+                break;
+        }
 
         if (id == R.id.action_settings) {
             return true;
@@ -72,7 +83,7 @@ public class Principal extends AppCompatActivity {
                 Bundle p = data.getExtras();
                 Contacto nuevo = (Contacto)p.getSerializable("nuevoContacto");
                 contactos.add(nuevo);
-
+                ordenarAscendente();
                 adaptador.notifyDataSetChanged();
             }
         }
@@ -135,5 +146,15 @@ public class Principal extends AppCompatActivity {
         p.putSerializable("contacto", contactos.get(posicion));
         intent.putExtras(p);
         startActivity(intent);
+    }
+
+    private void ordenarAscendente(){
+        Collections.sort(contactos);
+        adaptador.notifyDataSetChanged();
+    }
+
+    private void ordenarDescendente(){
+        Collections.sort(contactos, Collections.reverseOrder());
+        adaptador.notifyDataSetChanged();
     }
 }
