@@ -7,12 +7,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvMensaje"
         android:textSize="20sp"
-        android:textColor="#252525"
+        android:textColor="#007FB5"
         android:padding="20dp" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvMensaje"
-        android:id="@+id/lvTelefonosDialogo" />
+        android:id="@+id/lvTelefonosDialogo"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp" />
 </RelativeLayout>

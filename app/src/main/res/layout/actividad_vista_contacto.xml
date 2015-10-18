@@ -10,14 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ivFotoVista"
-        android:src="@drawable/ic_account_circle_black_24dp" />
+        android:src="@drawable/ic_account_circle_black_24dp"
+        android:minHeight="80dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/inicial"
         android:layout_below="@id/ivFotoVista"
-        android:id="@+id/tvNombreVista" />
+        android:id="@+id/tvNombreVista"
+        android:textSize="24sp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:textColor="@color/azul_default" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -34,5 +39,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/boton_redondo_general_azul"
-        android:src="@drawable/ic_create_white_24dp" />
+        android:src="@drawable/ic_create_white_24dp"
+        android:elevation="12dp"
+        android:focusableInTouchMode="true" />
 </RelativeLayout>

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="@string/inicial"
         android:id="@+id/tvNombreDialogo"
-        android:textColor="#010101"
+        android:textColor="@color/azul_default"
         android:textIsSelectable="true"
         android:textSize="24dp"
         android:paddingBottom="10dp" />
