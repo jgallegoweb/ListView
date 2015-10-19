@@ -58,20 +58,16 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         int contadorNumeros = (Integer) contacto.getTelefono().size();
         if(contadorNumeros>0){
             v.tvTelefono.setText(contacto.getTelefono().get(0));
-            /*
-            int t = (Integer) contadorNumeros > 1 ? R.drawable.ic_add_black_18dp : R.drawable.ic_keyboard_arrow_right_black_18dp;
-            v.ibAccion.setImageResource(t);
-            */
-            if(contadorNumeros==1){
-                v.ibAccion.setImageResource(R.drawable.ic_add_black_18dp);
-                addInsertarNumero(v.ibAccion, contacto);
-            }else{
-                v.ibAccion.setImageResource(R.drawable.ic_keyboard_arrow_right_black_18dp);
-                addVerNumeros(v.ibAccion, contacto);
-            }
-
+        }else{
+            v.tvTelefono.setText("");
         }
-
+        if(contadorNumeros<2){
+            v.ibAccion.setImageResource(R.drawable.ic_add_black_18dp);
+            addInsertarNumero(v.ibAccion, contacto);
+        }else{
+            v.ibAccion.setImageResource(R.drawable.ic_keyboard_arrow_right_black_18dp);
+            addVerNumeros(v.ibAccion, contacto);
+        }
         return convertView;
     }
 

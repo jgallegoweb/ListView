@@ -111,7 +111,6 @@ public class Principal extends AppCompatActivity {
                 tostada(getString(R.string.exito_guardar));
             }
         }
-
     }
 
     @Override
