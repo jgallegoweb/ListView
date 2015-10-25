@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Xml;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +19,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.javier.listviewp1.backup.ActividadOpciones;
+import com.example.javier.listviewp1.backup.GestionBackUp;
+import com.example.javier.listviewp1.backup.Preferencias;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +40,8 @@ public class Principal extends AppCompatActivity {
     private Adaptador adaptador;
     private ArrayList<Contacto> contactos;
     private int posicion_editada;
+    private Preferencias preferencias;
+    private GestionBackUp gestionBackUp;
     static final int CREADOR = 1, EDITOR = 2, VISOR = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +67,9 @@ public class Principal extends AppCompatActivity {
             case R.id.ordenar_des:
                 ordenarDescendente();
                 break;
+            case R.id.opciones:
+                verOpciones();
+                break;
         }
 
         if (id == R.id.action_settings) {
@@ -60,15 +80,34 @@ public class Principal extends AppCompatActivity {
     }
 
     private void init(){
+        preferencias = new Preferencias(this);
+        gestionBackUp = new GestionBackUp();
         final ListView lv = (ListView)findViewById(R.id.lvContactos);
-        contactos = (ArrayList<Contacto>) GestionContacto.getLista(this);
+        //contactos = (ArrayList<Contacto>) GestionContacto.getLista(this);
+        contactos = new ArrayList<>();
+
+
+        if(preferencias.getFechaSync().compareTo("yyyy/mm/dd")==0){
+            //crear dialogo
+        }else{
+            try {
+                contactos = gestionBackUp.leerXML(this);
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         adaptador = new Adaptador(this, R.layout.elemento, contactos);
         lv.setAdapter(adaptador);
         lv.setTag(contactos);
         registerForContextMenu(lv);
     }
 
-
+    private void verOpciones(){
+        Intent intent = new Intent(this, ActividadOpciones.class);
+        startActivity(intent);
+    }
 
     public void verInsertar(View v){
         Intent intent = new Intent(this, Creador.class);
@@ -111,6 +150,13 @@ public class Principal extends AppCompatActivity {
                 tostada(getString(R.string.exito_guardar));
             }
         }
+        try {
+            GestionBackUp.crearXML(this, contactos);
+            preferencias.setActualFechaSync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -142,6 +188,12 @@ public class Principal extends AppCompatActivity {
 
     private void borrarContacto(int posicion){
         contactos.remove(posicion);
+        try {
+            GestionBackUp.crearXML(this, contactos);
+            preferencias.setActualFechaSync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         adaptador.notifyDataSetChanged();
         tostada(getString(R.string.exito_borrar));
     }

@@ -3,4 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".Principal">
     <item android:id="@+id/ordenar_asc" android:title="@string/ordenar_ascedente" />
     <item android:id="@+id/ordenar_des" android:title="@string/ordenar_descedente" />
+    <item android:id="@+id/sync" android:title="@string/sync" />
+    <item android:id="@+id/opciones" android:title="@string/opciones" />
 </menu>

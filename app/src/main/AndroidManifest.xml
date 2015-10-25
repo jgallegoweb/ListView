@@ -26,6 +26,8 @@
             android:name=".VistaContacto"
             android:label="@string/title_activity_vista_contacto" >
         </activity>
+        <activity android:name=".backup.ActividadOpciones" >
+        </activity>
     </application>
 
 </manifest>
