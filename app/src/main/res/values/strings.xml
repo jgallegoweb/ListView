@@ -33,4 +33,6 @@
     <string name="auto_sync">Sincronización automática</string>
     <string name="sync">Actualizar copia de seguridad</string>
     <string name="opciones">Opciones</string>
+    <string name="no_back">No hay ningún back up de contactos</string>
+    <string name="crear">Crear</string>
 </resources>

@@ -38,6 +38,7 @@ import java.util.Collections;
 
 public class Principal extends AppCompatActivity {
     private Adaptador adaptador;
+    private ListView lv;
     private ArrayList<Contacto> contactos;
     private int posicion_editada;
     private Preferencias preferencias;
@@ -77,54 +78,6 @@ public class Principal extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void init(){
-        preferencias = new Preferencias(this);
-        gestionBackUp = new GestionBackUp();
-        final ListView lv = (ListView)findViewById(R.id.lvContactos);
-        //contactos = (ArrayList<Contacto>) GestionContacto.getLista(this);
-        contactos = new ArrayList<>();
-
-
-        if(preferencias.getFechaSync().compareTo("yyyy/mm/dd")==0){
-            //crear dialogo
-        }else{
-            try {
-                contactos = gestionBackUp.leerXML(this);
-            } catch (XmlPullParserException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        adaptador = new Adaptador(this, R.layout.elemento, contactos);
-        lv.setAdapter(adaptador);
-        lv.setTag(contactos);
-        registerForContextMenu(lv);
-    }
-
-    private void verOpciones(){
-        Intent intent = new Intent(this, ActividadOpciones.class);
-        startActivity(intent);
-    }
-
-    public void verInsertar(View v){
-        Intent intent = new Intent(this, Creador.class);
-        Bundle p = new Bundle();
-        Contacto c = new Contacto(-1, "", new ArrayList<String>());
-        p.putSerializable("contacto", c);
-        intent.putExtras(p);
-        startActivityForResult(intent, CREADOR);
-    }
-
-    private void verEditar(int posicion){
-        Intent intent = new Intent(this, Creador.class);
-        Bundle p = new Bundle();
-        p.putSerializable("contacto", contactos.get(posicion));
-        posicion_editada = posicion;
-        intent.putExtras(p);
-        startActivityForResult(intent, EDITOR);
     }
 
     @Override
@@ -186,7 +139,91 @@ public class Principal extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
-    private void borrarContacto(int posicion){
+    /***********************************************************************************************
+     * INIT ****************************************************************************************
+     **********************************************************************************************/
+
+    private void init(){
+        preferencias = new Preferencias(this);
+        gestionBackUp = new GestionBackUp();
+        lv = (ListView)findViewById(R.id.lvContactos);
+        contactos = new ArrayList<>();
+        try {
+            contactos = gestionBackUp.leerXML(this);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(contactos.size()==0){
+            //contactos = (ArrayList<Contacto>)GestionContacto.getLista(this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle(R.string.confirmar);
+            LayoutInflater inflater = LayoutInflater.from(this);
+            final View vista = inflater.inflate(R.layout.dialogo_back, null);
+            TextView tvMensaje = (TextView) vista.findViewById(R.id.tvDialgoBack);
+            tvMensaje.setText(getString(R.string.no_back));
+            alert.setView(vista);
+            alert.setPositiveButton(R.string.crear,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            nuevoBackUp();
+                            mostrarLista();
+                        }
+                    });
+            alert.setNegativeButton(R.string.cancelar, null);
+            alert.show();
+        }
+        mostrarLista();
+
+    }
+
+    private void mostrarLista(){
+        adaptador = new Adaptador(this, R.layout.elemento, contactos);
+        lv.setAdapter(adaptador);
+        lv.setTag(contactos);
+        registerForContextMenu(lv);
+    }
+
+    /***********************************************************************************************
+     * STARTACTIVITIES *****************************************************************************
+     **********************************************************************************************/
+    private void verOpciones(){
+        Intent intent = new Intent(this, ActividadOpciones.class);
+        startActivity(intent);
+    }
+
+    public void verInsertar(View v){
+        Intent intent = new Intent(this, Creador.class);
+        Bundle p = new Bundle();
+        Contacto c = new Contacto(-1, "", new ArrayList<String>());
+        p.putSerializable("contacto", c);
+        intent.putExtras(p);
+        startActivityForResult(intent, CREADOR);
+    }
+
+    private void verEditar(int posicion){
+        Intent intent = new Intent(this, Creador.class);
+        Bundle p = new Bundle();
+        p.putSerializable("contacto", contactos.get(posicion));
+        posicion_editada = posicion;
+        intent.putExtras(p);
+        startActivityForResult(intent, EDITOR);
+    }
+
+    public void verContacto(int posicion){
+        Intent intent = new Intent(this, VistaContacto.class);
+        Bundle p = new Bundle();
+        p.putSerializable("contacto", contactos.get(posicion));
+        intent.putExtras(p);
+        posicion_editada = posicion;
+        startActivityForResult(intent, VISOR);
+    }
+
+    /***********************************************************************************************
+     * MODIFICACIONES LISTA ************************************************************************
+     **********************************************************************************************/
+     private void borrarContacto(int posicion){
         contactos.remove(posicion);
         try {
             GestionBackUp.crearXML(this, contactos);
@@ -194,10 +231,14 @@ public class Principal extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        adaptador.notifyDataSetChanged();
+         adaptador.notifyDataSetChanged();
         tostada(getString(R.string.exito_borrar));
     }
 
+
+    /***********************************************************************************************
+     * DIALOGOS ************************************************************************************
+     **********************************************************************************************/
     private void confirmarBorrar(final int posicion){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(R.string.confirmar);
@@ -216,15 +257,9 @@ public class Principal extends AppCompatActivity {
         alert.show();
     }
 
-    public void verContacto(int posicion){
-        Intent intent = new Intent(this, VistaContacto.class);
-        Bundle p = new Bundle();
-        p.putSerializable("contacto", contactos.get(posicion));
-        intent.putExtras(p);
-        posicion_editada = posicion;
-        startActivityForResult(intent, VISOR);
-    }
-
+    /***********************************************************************************************
+     * ORDENAR *************************************************************************************
+     **********************************************************************************************/
     private void ordenarAscendente(){
         Collections.sort(contactos);
         adaptador.notifyDataSetChanged();
@@ -235,8 +270,15 @@ public class Principal extends AppCompatActivity {
         adaptador.notifyDataSetChanged();
     }
 
+    /***********************************************************************************************
+     * BACKUP **************************************************************************************
+     **********************************************************************************************/
+
+    private void nuevoBackUp(){
+        contactos = (ArrayList<Contacto>)GestionContacto.getLista(this);
+    }
+
     private void tostada(String texto){
         Toast.makeText(this, texto, Toast.LENGTH_LONG).show();
     }
-
 }
