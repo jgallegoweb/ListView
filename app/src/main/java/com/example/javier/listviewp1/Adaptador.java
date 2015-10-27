@@ -79,6 +79,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
             }
         });
     }
+
     public void addVerNumeros(ImageButton ib, final Contacto contacto) {
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +88,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
             }
         });
     }
+
     public void insertarNumero(final Contacto contacto){
         AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
         alert.setTitle(R.string.titulo_insertar);

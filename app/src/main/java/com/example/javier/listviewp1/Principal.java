@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Xml;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,17 +21,10 @@ import com.example.javier.listviewp1.backup.ActividadOpciones;
 import com.example.javier.listviewp1.backup.GestionBackUp;
 import com.example.javier.listviewp1.backup.Preferencias;
 
-import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlSerializer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class Principal extends AppCompatActivity {
@@ -103,13 +94,7 @@ public class Principal extends AppCompatActivity {
                 tostada(getString(R.string.exito_guardar));
             }
         }
-        try {
-            GestionBackUp.crearXML(this, contactos);
-            preferencias.setActualFechaSync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        actualizarBackUp();
     }
 
     @Override
@@ -155,8 +140,7 @@ public class Principal extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(contactos.size()==0){
-            //contactos = (ArrayList<Contacto>)GestionContacto.getLista(this);
+        if(contactos.size()<1){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(R.string.confirmar);
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -224,15 +208,10 @@ public class Principal extends AppCompatActivity {
      * MODIFICACIONES LISTA ************************************************************************
      **********************************************************************************************/
      private void borrarContacto(int posicion){
-        contactos.remove(posicion);
-        try {
-            GestionBackUp.crearXML(this, contactos);
-            preferencias.setActualFechaSync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+         contactos.remove(posicion);
+         actualizarBackUp();
          adaptador.notifyDataSetChanged();
-        tostada(getString(R.string.exito_borrar));
+         tostada(getString(R.string.exito_borrar));
     }
 
 
@@ -276,6 +255,21 @@ public class Principal extends AppCompatActivity {
 
     private void nuevoBackUp(){
         contactos = (ArrayList<Contacto>)GestionContacto.getLista(this);
+        try {
+            GestionBackUp.crearXML(this, contactos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarBackUp(){
+        try {
+            GestionBackUp.crearXML(this, contactos);
+            preferencias.setActualFechaSync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void tostada(String texto){
