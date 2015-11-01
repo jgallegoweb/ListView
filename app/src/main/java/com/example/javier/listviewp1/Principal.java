@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.javier.listviewp1.backup.ActividadOpciones;
 import com.example.javier.listviewp1.backup.GestionBackUp;
 import com.example.javier.listviewp1.backup.Preferencias;
+import com.example.javier.listviewp1.backup.Sincronizador;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -34,6 +35,9 @@ public class Principal extends AppCompatActivity {
     private int posicion_editada;
     private Preferencias preferencias;
     private GestionBackUp gestionBackUp;
+    public static final String DOC_BACKUP = "backupcontactos";
+    public static final String DOC_RECOLECTOR = "recolector";
+
     static final int CREADOR = 1, EDITOR = 2, VISOR = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +138,7 @@ public class Principal extends AppCompatActivity {
         lv = (ListView)findViewById(R.id.lvContactos);
         contactos = new ArrayList<>();
         try {
-            contactos = gestionBackUp.leerXML(this);
+            contactos = gestionBackUp.leerXML(this, DOC_BACKUP);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -159,7 +163,6 @@ public class Principal extends AppCompatActivity {
             alert.show();
         }
         mostrarLista();
-
     }
 
     private void mostrarLista(){
@@ -175,6 +178,11 @@ public class Principal extends AppCompatActivity {
     private void verOpciones(){
         Intent intent = new Intent(this, ActividadOpciones.class);
         startActivity(intent);
+        //test
+        Sincronizador s = new Sincronizador(this, "", true);
+        s.sincronizar();
+
+        //fintest
     }
 
     public void verInsertar(View v){
@@ -256,7 +264,8 @@ public class Principal extends AppCompatActivity {
     private void nuevoBackUp(){
         contactos = (ArrayList<Contacto>)GestionContacto.getLista(this);
         try {
-            GestionBackUp.crearXML(this, contactos);
+            GestionBackUp.crearXML(this, DOC_BACKUP, contactos);
+            GestionBackUp.crearXML(this, DOC_RECOLECTOR, contactos);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -264,7 +273,7 @@ public class Principal extends AppCompatActivity {
 
     private void actualizarBackUp(){
         try {
-            GestionBackUp.crearXML(this, contactos);
+            GestionBackUp.crearXML(this, DOC_BACKUP, contactos);
             preferencias.setActualFechaSync();
         } catch (IOException e) {
             e.printStackTrace();

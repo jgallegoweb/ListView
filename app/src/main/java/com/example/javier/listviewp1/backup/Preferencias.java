@@ -11,13 +11,12 @@ import java.util.GregorianCalendar;
  */
 public class Preferencias {
     private final String AUTO_SYNC = "autoSync";
+    private final String TIPO_SYNC = "tipoSync";
     private final String FECHA_SYNC = "fechaSync";
     private SharedPreferences pc;
 
     public Preferencias(Context c) {
         pc = c.getSharedPreferences("sync", Context.MODE_PRIVATE);
-        //fechaSync = pc.getString(fechaSync, "yyyy/mm/dd");
-        //autoSync = pc.getBoolean(autoSync, false);
     }
 
     public boolean isAutoSync() {
@@ -55,5 +54,15 @@ public class Preferencias {
         SharedPreferences.Editor ed = pc.edit();
         ed.putString(FECHA_SYNC, y+"/"+m+"/"+d);
         ed.commit();
+    }
+
+    public void setTipoSync(String tipo){
+        SharedPreferences.Editor ed = pc.edit();
+        ed.putString(TIPO_SYNC, tipo);
+        ed.commit();
+    }
+
+    public String getTipoSync(){
+        return pc.getString(TIPO_SYNC, "parcial");
     }
 }

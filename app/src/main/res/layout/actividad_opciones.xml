@@ -15,11 +15,20 @@
         android:checked="false"
         android:layout_centerHorizontal="true" />
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tipo_sync"
+        android:layout_below="@id/sSync"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tSync"
+        android:checked="false" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/inicial"
-        android:layout_below="@id/sSync"
+        android:layout_below="@id/tSync"
         android:layout_centerHorizontal="true"
         android:id="@+id/tvFechaSync" />
 </RelativeLayout>

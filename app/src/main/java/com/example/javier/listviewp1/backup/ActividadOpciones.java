@@ -12,7 +12,7 @@ import org.w3c.dom.Text;
 
 public class ActividadOpciones extends AppCompatActivity {
 
-    private Switch sSync;
+    private Switch sSync, tSync;
     private TextView tvFechaSync;
     private Preferencias pc;
 
@@ -25,27 +25,32 @@ public class ActividadOpciones extends AppCompatActivity {
 
     private void init(){
         sSync = (Switch)findViewById(R.id.sSync);
+        tSync = (Switch)findViewById(R.id.tSync);
         tvFechaSync = (TextView)findViewById(R.id.tvFechaSync);
         pc = new Preferencias(this);
         cargarActuales();
-        invertirSync();
+        cargarEventos();
     }
 
     private void cargarActuales(){
         if(pc.isAutoSync()){ sSync.setChecked(true); }
+        if(pc.getTipoSync()=="total"){ tSync.setChecked(true); }
         tvFechaSync.setText(pc.getFechaSync());
     }
 
-    private void invertirSync(){
+    private void cargarEventos(){
         sSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 pc.setAutoSync(isChecked);
             }
         });
+
+        tSync.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                pc.setTipoSync((isChecked) ? "total" : "parcial");
+            }
+        });
     }
-
-
-
-
 }

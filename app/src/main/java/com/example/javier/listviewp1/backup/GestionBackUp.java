@@ -20,8 +20,8 @@ import java.util.ArrayList;
  * Created by Javier on 25/10/2015.
  */
 public class GestionBackUp {
-    public static void crearXML(Context contexto, ArrayList<Contacto> contactos) throws IOException {
-        FileOutputStream fosxml = new FileOutputStream(new File(contexto.getFilesDir(),"backupcontactos.xml"));
+    public static void crearXML(Context contexto, String documento, ArrayList<Contacto> contactos) throws IOException {
+        FileOutputStream fosxml = new FileOutputStream(new File(contexto.getFilesDir(),documento+".xml"));
 
         XmlSerializer docxml = Xml.newSerializer();
         docxml.setOutput(fosxml, "UTF-8");
@@ -52,10 +52,10 @@ public class GestionBackUp {
         fosxml.close();
     }
 
-    public static ArrayList<Contacto> leerXML(Context contexto) throws IOException, XmlPullParserException {
+    public static ArrayList<Contacto> leerXML(Context contexto, String documento) throws IOException, XmlPullParserException {
         ArrayList<Contacto> contactos = new ArrayList<>();
         XmlPullParser lectorxml = Xml.newPullParser();
-        lectorxml.setInput(new FileInputStream(new File(contexto.getFilesDir(),"backupcontactos.xml")),"utf-8");
+        lectorxml.setInput(new FileInputStream(new File(contexto.getFilesDir(),documento+".xml")),"utf-8");
         int evento = lectorxml.getEventType();
         String id, texto;
         Contacto c = new Contacto();

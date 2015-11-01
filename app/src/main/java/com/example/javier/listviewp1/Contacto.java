@@ -74,8 +74,14 @@ public class Contacto implements Serializable, Comparable<Contacto>{
 
         Contacto contacto = (Contacto) o;
 
-        return id == contacto.id;
-
+        if(this.nombre.equalsIgnoreCase(contacto.getNombre())){
+            for(String tlf : this.telefono){
+                if (contacto.getTelefono().indexOf(tlf)!=-1){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
