@@ -17,37 +17,40 @@ import java.util.ArrayList;
  */
 public class Sincronizador {
     private Context contexto;
-    private String tipo;
-    private boolean sincronizar;
     private ArrayList<Contacto> agenda, backUp, recolector;
 
-    public Sincronizador(Context c, String tipo, boolean sincronizar) {
+    public Sincronizador(Context c) {
         this.contexto = c;
-        this.tipo = tipo;
-        this.sincronizar = sincronizar;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public boolean isSincronizar() {
-        return sincronizar;
-    }
-
-    public void setSincronizar(boolean sincronizar) {
-        this.sincronizar = sincronizar;
-    }
-
-    public void sincronizar(){
-
-        agenda = (ArrayList<Contacto>)GestionContacto.getLista(contexto);
+        agenda = null;
         backUp = null;
         recolector = null;
+    }
+
+    public ArrayList<Contacto> getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(ArrayList<Contacto> agenda) {
+        this.agenda = agenda;
+    }
+
+    public ArrayList<Contacto> getBackUp() {
+        return backUp;
+    }
+
+    public void setBackUp(ArrayList<Contacto> backUp) {
+        this.backUp = backUp;
+    }
+
+    public ArrayList<Contacto> getRecolector() {
+        return recolector;
+    }
+
+    public void setRecolector(ArrayList<Contacto> recolector) {
+        this.recolector = recolector;
+    }
+
+    public void cargar(){
         try {
             backUp = GestionBackUp.leerXML(contexto, Principal.DOC_BACKUP);
             recolector = GestionBackUp.leerXML(contexto, Principal.DOC_RECOLECTOR);
@@ -56,6 +59,13 @@ public class Sincronizador {
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sincronizar(){
+        agenda = (ArrayList<Contacto>)GestionContacto.getLista(contexto);
+        backUp = null;
+        recolector = null;
+        cargar();
 
         for(Contacto contactoAgenda : agenda){
             Contacto contactoBack = buscaContacto(contactoAgenda, backUp);
@@ -76,7 +86,6 @@ public class Sincronizador {
             }
         }
 
-
         Log.v("backup", backUp.toString());
         guardar();
     }
@@ -95,12 +104,28 @@ public class Sincronizador {
         recolector.add(c);
     }
 
-    private void guardar(){
+    public void guardar(){
         try {
             GestionBackUp.crearXML(contexto, Principal.DOC_BACKUP, backUp);
             GestionBackUp.crearXML(contexto, Principal.DOC_RECOLECTOR, recolector);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void add(Contacto c){
+        getBackUp().add(c);
+        getRecolector().add(c);
+        guardar();
+    }
+
+    public void set(int pos, Contacto c){
+        getBackUp().set(pos, c);
+        guardar();
+    }
+
+    public void remove(int pos){
+        getBackUp().remove(pos);
+        guardar();
     }
 }
