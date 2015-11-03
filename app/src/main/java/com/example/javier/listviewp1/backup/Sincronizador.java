@@ -22,8 +22,8 @@ public class Sincronizador {
     public Sincronizador(Context c) {
         this.contexto = c;
         agenda = null;
-        backUp = null;
-        recolector = null;
+        backUp = new ArrayList<>();
+        recolector = new ArrayList<>();
     }
 
     public ArrayList<Contacto> getAgenda() {
@@ -51,6 +51,7 @@ public class Sincronizador {
     }
 
     public void cargar(){
+        agenda = (ArrayList<Contacto>)GestionContacto.getLista(contexto);
         try {
             backUp = GestionBackUp.leerXML(contexto, Principal.DOC_BACKUP);
             recolector = GestionBackUp.leerXML(contexto, Principal.DOC_RECOLECTOR);
@@ -62,11 +63,10 @@ public class Sincronizador {
     }
 
     public void sincronizar(){
-        agenda = (ArrayList<Contacto>)GestionContacto.getLista(contexto);
-        backUp = null;
-        recolector = null;
         cargar();
-
+        if(backUp==null || recolector==null){
+            Log.v("okeis", "entra aqui");
+        }
         for(Contacto contactoAgenda : agenda){
             Contacto contactoBack = buscaContacto(contactoAgenda, backUp);
             Contacto contactoRecolector = buscaContacto(contactoAgenda, recolector);
@@ -90,6 +90,13 @@ public class Sincronizador {
         guardar();
     }
 
+    public void sustituir(){
+        cargar();
+        backUp = agenda;
+        recolector = agenda;
+        guardar();
+    }
+
     private Contacto buscaContacto(Contacto contacto, ArrayList<Contacto> cs){
         for(Contacto c : cs){
             if (c.equals(contacto)){
@@ -105,9 +112,11 @@ public class Sincronizador {
     }
 
     public void guardar(){
+        Preferencias pc = new Preferencias(contexto);
         try {
             GestionBackUp.crearXML(contexto, Principal.DOC_BACKUP, backUp);
             GestionBackUp.crearXML(contexto, Principal.DOC_RECOLECTOR, recolector);
+            pc.setActualFechaSync();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,5 +136,9 @@ public class Sincronizador {
     public void remove(int pos){
         getBackUp().remove(pos);
         guardar();
+    }
+
+    public void deleteAll(){
+
     }
 }

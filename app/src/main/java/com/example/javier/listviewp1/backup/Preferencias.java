@@ -48,11 +48,15 @@ public class Preferencias {
     public void setActualFechaSync(){
         Calendar c = new GregorianCalendar();
         String d = Integer.toString(c.get(Calendar.DATE));
-        String m = Integer.toString(c.get(Calendar.MONTH));
+        String M = Integer.toString(c.get(Calendar.MONTH));
         String y = Integer.toString(c.get(Calendar.YEAR));
 
+        String h = Integer.toString(c.get(Calendar.HOUR_OF_DAY));
+        String m = Integer.toString(c.get(Calendar.MINUTE));
+        String s = Integer.toString(c.get(Calendar.SECOND));
+
         SharedPreferences.Editor ed = pc.edit();
-        ed.putString(FECHA_SYNC, y+"/"+m+"/"+d);
+        ed.putString(FECHA_SYNC, y+"/"+M+"/"+d+" "+h+":"+m+":"+s);
         ed.commit();
     }
 
@@ -63,6 +67,6 @@ public class Preferencias {
     }
 
     public String getTipoSync(){
-        return pc.getString(TIPO_SYNC, "parcial");
+        return pc.getString(TIPO_SYNC, "total");
     }
 }

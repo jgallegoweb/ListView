@@ -18,13 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.javier.listviewp1.backup.ActividadOpciones;
-import com.example.javier.listviewp1.backup.GestionBackUp;
 import com.example.javier.listviewp1.backup.Preferencias;
 import com.example.javier.listviewp1.backup.Sincronizador;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -62,6 +58,11 @@ public class Principal extends AppCompatActivity {
                 break;
             case R.id.ordenar_des:
                 ordenarDescendente();
+                break;
+            case R.id.sync:
+                sincroniza();
+                contactos = sincronizador.getBackUp();
+                mostrarLista();
                 break;
             case R.id.opciones:
                 verOpciones();
@@ -134,13 +135,16 @@ public class Principal extends AppCompatActivity {
      **********************************************************************************************/
 
     private void init(){
+        lv = (ListView)findViewById(R.id.lvContactos);
         preferencias = new Preferencias(this);
         sincronizador = new Sincronizador(this);
         sincronizador.cargar();
-        lv = (ListView)findViewById(R.id.lvContactos);
+        if (preferencias.isAutoSync()){
+            sincroniza();
+        }
         contactos = sincronizador.getBackUp();
 
-        if(contactos==null){
+        if(contactos.size()==0){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(R.string.confirmar);
             LayoutInflater inflater = LayoutInflater.from(this);
@@ -174,9 +178,6 @@ public class Principal extends AppCompatActivity {
     private void verOpciones(){
         Intent intent = new Intent(this, ActividadOpciones.class);
         startActivity(intent);
-
-        sincronizador.sincronizar();
-        contactos = sincronizador.getBackUp();
     }
 
     public void verInsertar(View v){
@@ -265,6 +266,14 @@ public class Principal extends AppCompatActivity {
 
     private void actualizarFecha(){
         preferencias.setActualFechaSync();
+    }
+
+    private void sincroniza(){
+        if(preferencias.getTipoSync()=="total"){
+            sincronizador.sustituir();
+        }else{
+            sincronizador.sincronizar();
+        }
     }
 
     private void tostada(String texto){
