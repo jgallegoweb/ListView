@@ -13,7 +13,9 @@
         android:text="@string/auto_sync"
         android:id="@+id/sSync"
         android:checked="false"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
 
     <Switch
         android:layout_width="wrap_content"
@@ -22,7 +24,9 @@
         android:layout_below="@id/sSync"
         android:layout_centerHorizontal="true"
         android:id="@+id/tSync"
-        android:checked="false" />
+        android:checked="false"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,5 +34,6 @@
         android:text="@string/inicial"
         android:layout_below="@id/tSync"
         android:layout_centerHorizontal="true"
-        android:id="@+id/tvFechaSync" />
+        android:id="@+id/tvFechaSync"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>
