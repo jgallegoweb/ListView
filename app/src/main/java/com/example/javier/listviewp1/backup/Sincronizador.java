@@ -64,9 +64,6 @@ public class Sincronizador {
 
     public void sincronizar(){
         cargar();
-        if(backUp==null || recolector==null){
-            Log.v("okeis", "entra aqui");
-        }
         for(Contacto contactoAgenda : agenda){
             Contacto contactoBack = buscaContacto(contactoAgenda, backUp);
             Contacto contactoRecolector = buscaContacto(contactoAgenda, recolector);
@@ -85,15 +82,13 @@ public class Sincronizador {
                 }
             }
         }
-
-        Log.v("backup", backUp.toString());
         guardar();
     }
 
     public void sustituir(){
         cargar();
-        backUp = agenda;
-        recolector = agenda;
+        backUp = (ArrayList<Contacto>) agenda.clone();
+        recolector = (ArrayList<Contacto>) agenda.clone();
         guardar();
     }
 
@@ -123,8 +118,8 @@ public class Sincronizador {
     }
 
     public void add(Contacto c){
-        getBackUp().add(c);
-        getRecolector().add(c);
+        Log.v("error add", "una");
+        incluirContacto(c);
         guardar();
     }
 

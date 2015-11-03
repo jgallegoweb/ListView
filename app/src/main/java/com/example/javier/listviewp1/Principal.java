@@ -55,9 +55,11 @@ public class Principal extends AppCompatActivity {
         switch (id){
             case R.id.ordenar_asc:
                 ordenarAscendente();
+                adaptador.notifyDataSetChanged();
                 break;
             case R.id.ordenar_des:
                 ordenarDescendente();
+                adaptador.notifyDataSetChanged();
                 break;
             case R.id.sync:
                 sincroniza();
@@ -143,7 +145,6 @@ public class Principal extends AppCompatActivity {
             sincroniza();
         }
         contactos = sincronizador.getBackUp();
-
         if(contactos.size()==0){
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle(R.string.confirmar);
@@ -166,6 +167,7 @@ public class Principal extends AppCompatActivity {
     }
 
     private void mostrarLista(){
+        ordenarAscendente();
         adaptador = new Adaptador(this, R.layout.elemento, contactos);
         lv.setAdapter(adaptador);
         lv.setTag(contactos);
@@ -242,14 +244,12 @@ public class Principal extends AppCompatActivity {
     /***********************************************************************************************
      * ORDENAR *************************************************************************************
      **********************************************************************************************/
-    private void ordenarAscendente(){
+    private void ordenarAscendente() {
         Collections.sort(contactos);
-        adaptador.notifyDataSetChanged();
     }
 
-    private void ordenarDescendente(){
+    private void ordenarDescendente() {
         Collections.sort(contactos, Collections.reverseOrder());
-        adaptador.notifyDataSetChanged();
     }
 
     /***********************************************************************************************

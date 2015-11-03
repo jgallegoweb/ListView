@@ -1,29 +1,26 @@
 package com.example.javier.listviewp1.Util;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+
 /**
  * Created by Javier on 25/10/2015.
  */
 public class Dialogo {
-}
+    private Context contexto;
+    private int layout;
+    private AlertDialog.Builder dialogo;
+    private LayoutInflater inflater;
+    private View vista;
 
-
-/*
-
-private void confirmarBorrar(final int posicion){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(R.string.confirmar);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        final View vista = inflater.inflate(R.layout.dialogo_ver, null);
-        TextView tvMensaje = (TextView) vista.findViewById(R.id.tvMensaje);
-        tvMensaje.setText(getString(R.string.mensaje_borrar)+" "+contactos.get(posicion).getNombre());
-        alert.setView(vista);
-        alert.setPositiveButton(R.string.aceptar,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        borrarContacto(posicion);
-                    }
-                });
-        alert.setNegativeButton(R.string.cancelar, null);
-        alert.show();
+    public Dialogo(Context contexto, int layout) {
+        this.contexto = contexto;
+        this.layout = layout;
+        dialogo= new AlertDialog.Builder(this.contexto);
+        inflater = LayoutInflater.from(this.contexto);
+        vista = inflater.inflate(layout, null);
+        dialogo.setView(vista);
     }
- */
+}
