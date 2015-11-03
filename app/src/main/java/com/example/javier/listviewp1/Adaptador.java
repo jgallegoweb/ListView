@@ -79,6 +79,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
             }
         });
     }
+
     public void addVerNumeros(ImageButton ib, final Contacto contacto) {
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +88,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
             }
         });
     }
+
     public void insertarNumero(final Contacto contacto){
         AlertDialog.Builder alert = new AlertDialog.Builder(contexto);
         alert.setTitle(R.string.titulo_insertar);
@@ -94,7 +96,7 @@ public class Adaptador extends ArrayAdapter<Contacto>{
         int res = R.layout.dialogo_insertar;
         final View vista = inflater.inflate(res, null);
         TextView tvNombreDialogo = (TextView)vista.findViewById(R.id.tvNombreDialogo);
-        tvNombreDialogo.setText(contacto.getNombre());
+        tvNombreDialogo.setText(contacto.getNombre()+"no funciona");
         alert.setView(vista);
         alert.setPositiveButton(R.string.insertar,
                 new DialogInterface.OnClickListener() {

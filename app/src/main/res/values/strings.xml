@@ -30,5 +30,10 @@
     <string name="establecer_pricipal">Establecer como principal</string>
     <string name="exito_borrar">Eliminado con éxito</string>
     <string name="exito_guardar">Guardado con éxito</string>
-
+    <string name="auto_sync">Sincronización automática</string>
+    <string name="tipo_sync">Sustituir backup al sincronizar</string>
+    <string name="sync">Actualizar copia de seguridad</string>
+    <string name="opciones">Opciones</string>
+    <string name="no_back">No hay ningún back up de contactos</string>
+    <string name="crear">Crear</string>
 </resources>

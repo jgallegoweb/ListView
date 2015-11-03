@@ -59,6 +59,8 @@ public class Contacto implements Serializable, Comparable<Contacto>{
         this.telefono.set(pos, aux);
     }
 
+
+
     @Override
     public int compareTo(Contacto contacto) {
         int c = this.nombre.compareToIgnoreCase(contacto.nombre);
@@ -72,8 +74,14 @@ public class Contacto implements Serializable, Comparable<Contacto>{
 
         Contacto contacto = (Contacto) o;
 
-        return id == contacto.id;
-
+        if(this.nombre.equalsIgnoreCase(contacto.getNombre())){
+            for(String tlf : this.telefono){
+                if (contacto.getTelefono().indexOf(tlf)!=-1){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
