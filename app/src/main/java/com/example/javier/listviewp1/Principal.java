@@ -258,9 +258,10 @@ public class Principal extends AppCompatActivity {
 
     private void nuevoBackUp(){
         contactos = (ArrayList<Contacto>)GestionContacto.getLista(this);
-        sincronizador.setBackUp(contactos);
-        sincronizador.setRecolector(contactos);
+        sincronizador.setBackUp((ArrayList<Contacto>)contactos.clone());
+        sincronizador.setRecolector((ArrayList<Contacto>)contactos.clone());
         sincronizador.guardar();
+        contactos = sincronizador.getBackUp();
         actualizarFecha();
     }
 
