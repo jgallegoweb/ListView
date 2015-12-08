@@ -3,6 +3,7 @@ package com.example.javier.listviewp1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,7 +49,7 @@ public class Creador extends AppCompatActivity {
     }
     private void init(){
         contacto =(Contacto)getIntent().getExtras().getSerializable("contacto");
-
+        Log.v("comodemonios", contacto.toString()+"pepe");
         etNombre = (EditText)findViewById(R.id.etNombre);
         etTelefono = (EditText)findViewById(R.id.etTelefono);
         lvTelefonosCreador = (ListView)findViewById(R.id.lvTelefonosCreador);
