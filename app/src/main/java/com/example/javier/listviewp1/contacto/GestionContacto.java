@@ -1,9 +1,10 @@
-package com.example.javier.listviewp1;
+package com.example.javier.listviewp1.contacto;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +33,15 @@ public class GestionContacto {
         Cursor cursor = contexto.getContentResolver().query(uri, proyeccion, seleccion, argumentos, orden);
         int indiceId = cursor.getColumnIndex(ContactsContract.Contacts._ID);
         int indiceNombre = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+        int indiceFoto = cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_URI);
         List<Contacto> lista = new ArrayList<>();
         Contacto contacto;
         while(cursor.moveToNext()){
+
             contacto = new Contacto();
             contacto.setId(cursor.getLong(indiceId));
             contacto.setNombre(cursor.getString(indiceNombre));
+            contacto.setFoto(cursor.getString(indiceFoto));
             lista.add(contacto);
         }
         return lista;

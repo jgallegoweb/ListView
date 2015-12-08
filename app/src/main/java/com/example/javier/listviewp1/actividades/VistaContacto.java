@@ -2,19 +2,22 @@ package com.example.javier.listviewp1.actividades;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.javier.listviewp1.Contacto;
+import com.example.javier.listviewp1.contacto.Contacto;
 import com.example.javier.listviewp1.Principal;
 import com.example.javier.listviewp1.R;
 import com.example.javier.listviewp1.adaptadores.AdaptadorVistaContacto;
 
 public class VistaContacto extends AppCompatActivity {
     private TextView tvNombreVista;
+    private ImageView ivFoto;
     private AdaptadorVistaContacto aVista;
     private Contacto contacto;
     private ListView lv;
@@ -29,12 +32,14 @@ public class VistaContacto extends AppCompatActivity {
         Bundle p = getIntent().getExtras();
         contacto = (Contacto)p.getSerializable("contacto");
         lv = (ListView)findViewById(R.id.lvNumerosVista);
+        ivFoto = (ImageView)findViewById(R.id.ivFotoVista);
         visualiza();
     }
 
     private void visualiza(){
         tvNombreVista = (TextView)findViewById(R.id.tvNombreVista);
         tvNombreVista.setText(contacto.getNombre());
+        ivFoto.setImageURI(Uri.parse(contacto.getFoto()));
         aVista = new AdaptadorVistaContacto(this, R.layout.telefono, contacto.getTelefono());
         lv.setAdapter(aVista);
         lv.setTag(contacto.getTelefono());

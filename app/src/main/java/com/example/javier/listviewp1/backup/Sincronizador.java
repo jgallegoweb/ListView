@@ -3,8 +3,8 @@ package com.example.javier.listviewp1.backup;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.javier.listviewp1.Contacto;
-import com.example.javier.listviewp1.GestionContacto;
+import com.example.javier.listviewp1.contacto.Contacto;
+import com.example.javier.listviewp1.contacto.GestionContacto;
 import com.example.javier.listviewp1.Principal;
 
 import org.xmlpull.v1.XmlPullParserException;

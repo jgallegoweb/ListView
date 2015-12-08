@@ -3,8 +3,7 @@ package com.example.javier.listviewp1.backup;
 import android.content.Context;
 import android.util.Xml;
 
-import com.example.javier.listviewp1.Contacto;
-import com.example.javier.listviewp1.Principal;
+import com.example.javier.listviewp1.contacto.Contacto;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -37,6 +36,9 @@ public class GestionBackUp {
             docxml.startTag(null, "nombre");
             docxml.text(c.getNombre());
             docxml.endTag(null, "nombre");
+            docxml.startTag(null, "foto");
+            docxml.text(c.getFoto());
+            docxml.endTag(null, "foto");
             docxml.startTag(null, "telefonos");
             for(String tel : c.getTelefono()){
                 docxml.startTag(null, "telefono");
@@ -68,6 +70,8 @@ public class GestionBackUp {
                     c.setId(Integer.parseInt(id));
                 }else if(etiqueta.compareTo("nombre")==0){
                     c.setNombre(lectorxml.nextText());
+                }else if(etiqueta.compareTo("foto")==0){
+                    c.setFoto(lectorxml.nextText());
                 }else if(etiqueta.compareTo("telefonos")==0){
                     c.setTelefono(new ArrayList<String>());
                 }else if(etiqueta.compareTo("telefono")==0){

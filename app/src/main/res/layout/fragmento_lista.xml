@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Principal"
+    android:background="#FFFFFF"
+
+    >
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/lvContactos"
+        android:contextClickable="false"
+        android:dividerHeight="10dp"
+        android:divider="#ffffff"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibInsertar"
+        android:onClick="verInsertar"
+        android:background="@drawable/boton_redondo_general_rojo"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:elevation="12dp"
+        android:src="@drawable/ic_person_add_white_24dp"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="20dp" />
+</RelativeLayout>

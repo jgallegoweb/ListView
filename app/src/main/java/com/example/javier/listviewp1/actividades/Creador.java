@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.javier.listviewp1.Contacto;
+import com.example.javier.listviewp1.contacto.Contacto;
 import com.example.javier.listviewp1.R;
 import com.example.javier.listviewp1.adaptadores.AdaptadorVistaContacto;
 

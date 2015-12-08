@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.javier.listviewp1.Contacto;
+import com.example.javier.listviewp1.contacto.Contacto;
 import com.example.javier.listviewp1.R;
 
 import java.util.List;

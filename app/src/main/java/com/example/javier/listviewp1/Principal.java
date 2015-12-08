@@ -23,6 +23,9 @@ import com.example.javier.listviewp1.adaptadores.Adaptador;
 import com.example.javier.listviewp1.backup.ActividadOpciones;
 import com.example.javier.listviewp1.backup.Preferencias;
 import com.example.javier.listviewp1.backup.Sincronizador;
+import com.example.javier.listviewp1.contacto.Contacto;
+import com.example.javier.listviewp1.contacto.GestionContacto;
+import com.example.javier.listviewp1.fragmentos.FragmentoDetalle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +39,8 @@ public class Principal extends AppCompatActivity {
     private Sincronizador sincronizador;
     public static final String DOC_BACKUP = "backupcontactos";
     public static final String DOC_RECOLECTOR = "recolector";
+    private FragmentoDetalle fragmentoDetalle;
+
 
     public static final int CREADOR = 1, EDITOR = 2, VISOR = 3;
     @Override
@@ -140,6 +145,7 @@ public class Principal extends AppCompatActivity {
      **********************************************************************************************/
 
     private void init(){
+        fragmentoDetalle = (FragmentoDetalle)getFragmentManager().findFragmentById(R.id.fragmentdetalle);
         lv = (ListView)findViewById(R.id.lvContactos);
         preferencias = new Preferencias(this);
         sincronizador = new Sincronizador(this);
@@ -174,6 +180,12 @@ public class Principal extends AppCompatActivity {
         adaptador = new Adaptador(this, R.layout.elemento, contactos);
         lv.setAdapter(adaptador);
         lv.setTag(contactos);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                verContacto(position);
+            }
+        });
         registerForContextMenu(lv);
     }
 
@@ -204,12 +216,17 @@ public class Principal extends AppCompatActivity {
     }
 
     public void verContacto(int posicion){
-        Intent intent = new Intent(this, VistaContacto.class);
-        Bundle p = new Bundle();
-        p.putSerializable("contacto", contactos.get(posicion));
-        intent.putExtras(p);
-        posicion_editada = posicion;
-        startActivityForResult(intent, VISOR);
+        if(fragmentoDetalle!=null && fragmentoDetalle.isInLayout()){
+            fragmentoDetalle.setContacto(contactos.get(posicion));
+        }else{
+            Intent intent = new Intent(this, VistaContacto.class);
+            Bundle p = new Bundle();
+            p.putSerializable("contacto", contactos.get(posicion));
+            intent.putExtras(p);
+            posicion_editada = posicion;
+            startActivityForResult(intent, VISOR);
+        }
+
     }
 
     /***********************************************************************************************
@@ -259,7 +276,7 @@ public class Principal extends AppCompatActivity {
      **********************************************************************************************/
 
     private void nuevoBackUp(){
-        contactos = (ArrayList<Contacto>)GestionContacto.getLista(this);
+        contactos = (ArrayList<Contacto>) GestionContacto.getLista(this);
         sincronizador.setBackUp((ArrayList<Contacto>)contactos.clone());
         sincronizador.setRecolector((ArrayList<Contacto>)contactos.clone());
         sincronizador.guardar();

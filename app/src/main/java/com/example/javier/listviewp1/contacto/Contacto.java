@@ -1,13 +1,9 @@
-package com.example.javier.listviewp1;
+package com.example.javier.listviewp1.contacto;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.ContactsContract;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Javier on 07/10/2015.
@@ -15,6 +11,7 @@ import java.util.List;
 public class Contacto implements Serializable, Comparable<Contacto>{
     private long id;
     private String nombre;
+    private String foto;
     private ArrayList<String> telefono;
 
     public Contacto() {
@@ -23,6 +20,15 @@ public class Contacto implements Serializable, Comparable<Contacto>{
     public Contacto(long id, String nombre, ArrayList<String> telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
+        this.foto = "content://com.android.contacts/display_photo/2";
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = (foto!=null) ? foto : "content://com.android.contacts/display_photo/2";
     }
 
     public long getId() {
