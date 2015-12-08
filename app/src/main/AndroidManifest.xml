@@ -19,11 +19,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Creador"
+            android:name=".actividades.Creador"
             android:label="@string/title_activity_creador" >
         </activity>
         <activity
-            android:name=".VistaContacto"
+            android:name=".actividades.VistaContacto"
             android:label="@string/title_activity_vista_contacto" >
         </activity>
         <activity android:name=".backup.ActividadOpciones" >

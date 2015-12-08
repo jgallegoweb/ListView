@@ -1,4 +1,4 @@
-package com.example.javier.listviewp1;
+package com.example.javier.listviewp1.actividades;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.example.javier.listviewp1.Contacto;
+import com.example.javier.listviewp1.R;
+import com.example.javier.listviewp1.adaptadores.AdaptadorVistaContacto;
 
 import java.util.ArrayList;
 

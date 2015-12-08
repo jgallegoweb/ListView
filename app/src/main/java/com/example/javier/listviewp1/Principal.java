@@ -17,6 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.javier.listviewp1.actividades.Creador;
+import com.example.javier.listviewp1.actividades.VistaContacto;
+import com.example.javier.listviewp1.adaptadores.Adaptador;
 import com.example.javier.listviewp1.backup.ActividadOpciones;
 import com.example.javier.listviewp1.backup.Preferencias;
 import com.example.javier.listviewp1.backup.Sincronizador;
@@ -34,7 +37,7 @@ public class Principal extends AppCompatActivity {
     public static final String DOC_BACKUP = "backupcontactos";
     public static final String DOC_RECOLECTOR = "recolector";
 
-    static final int CREADOR = 1, EDITOR = 2, VISOR = 3;
+    public static final int CREADOR = 1, EDITOR = 2, VISOR = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

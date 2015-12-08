@@ -1,9 +1,8 @@
-package com.example.javier.listviewp1;
+package com.example.javier.listviewp1.adaptadores;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.javier.listviewp1.Contacto;
+import com.example.javier.listviewp1.R;
 
 import java.util.List;
 
